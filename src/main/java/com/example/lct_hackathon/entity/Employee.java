@@ -1,5 +1,7 @@
 package com.example.lct_hackathon.entity;
 
+import java.util.List;
+
 import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails.Address;
 
 import jakarta.persistence.CascadeType;
@@ -10,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -21,7 +24,7 @@ import lombok.Data;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long employeeId;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -33,6 +36,9 @@ public class Employee {
     @ManyToOne
     @JoinColumn(name = "grade_id", referencedColumnName = "id")
     private Grade grade;
+
+    @OneToMany(mappedBy = "employee")
+    private List<CompletedTask> completedTasks;
 
     // @OneToOne(cascade = CascadeType.ALL)
     // @JoinColumn(name = "id", referencedColumnName = "employeeId")

@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -43,4 +44,7 @@ public class EmployeeTask {
         inverseJoinColumns = { @JoinColumn(name = "project_id") }
     )
     private List<Grade> requiredGrades;
+
+    @OneToMany(mappedBy = "employeeTask")
+    private List<CompletedTask> completedTasks;
 }

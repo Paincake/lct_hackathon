@@ -33,5 +33,5 @@ public class BusinessPoint {
     @OneToOne
     @JoinColumn(name = "city_point_id", referencedColumnName = "id")
     private CityPoint cityPoint;
-
+    
 }

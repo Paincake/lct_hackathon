@@ -6,8 +6,6 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.PrecisionModel;
 
-import com.example.lct_hackathon.serialize.JsonToPointDeserializer;
-import com.example.lct_hackathon.serialize.PointToJsonSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -44,6 +42,6 @@ public class CityPoint {
     @OneToOne(mappedBy = "cityPoint")
     private BusinessPoint businessPoint;
 
-    @Column(columnDefinition = "geometry(Point,4326)", nullable = false)
-    private Point position = new GeometryFactory(new PrecisionModel(), SRID).createPoint(new Coordinate(lon, lat));
+    // @Column(columnDefinition = "geometry(Point,4326)", nullable = false)
+    // private Point position = new GeometryFactory(new PrecisionModel(), SRID).createPoint(new Coordinate(lon, lat));
 }

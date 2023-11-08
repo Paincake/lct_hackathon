@@ -1,0 +1,17 @@
+version: '3.9'
+
+
+services:
+ core:
+   container_name: spring-application
+   image: registry.gitlab.com/my-test-project6/test-cicd-project:latest
+   environment:
+     TEST_SERVICE_PORT: ${TEST_SERVICE_PORT}
+     OPEN_API_TITLE: ${OPEN_API_TITLE}
+   ports:
+     - "8081:${TEST_SERVICE_PORT}"
+   logging:
+     driver: 'json-file'
+     options:
+       max-size: '100m'
+       max-file: '3'
