@@ -1,5 +1,7 @@
 package com.example.lct_hackathon.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,5 +15,8 @@ public class EmployeeTaskService {
 
     public EmployeeTask findById(Long id){
         return employeeTaskRepository.findById(id).orElse(null);
+    }
+    public List<EmployeeTask> findAll(){
+        return employeeTaskRepository.findAll();
     }
 }

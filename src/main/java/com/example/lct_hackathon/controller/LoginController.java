@@ -30,7 +30,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<UUID> authenticate(@RequestParam String username, @RequestParam String password){
-        UUID token = authService.authenticate(username, password);
+        UUID token = authService.login(username, password);
         if(token == null){
             return new ResponseEntity<UUID>(token, HttpStatus.FORBIDDEN);
         }
@@ -44,7 +44,7 @@ public class LoginController {
         String encoded = encoder.encode(password);
         User user = new User();
         user.setEmployeeId(empId);
-        Role agentRole = roleRepository.findById(1L).get();
+        Role agentRole = roleRepository.findById(2L).get();
         user.setRoles(Set.of(agentRole));
         user.setPassword(encoded);
         user.setUsername(username);

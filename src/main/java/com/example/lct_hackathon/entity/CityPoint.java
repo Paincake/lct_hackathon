@@ -22,7 +22,6 @@ import lombok.Data;
 @Table(name="city_point")
 @Data
 public class CityPoint {
-    private static final int SRID = 4326;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -42,6 +41,4 @@ public class CityPoint {
     @OneToOne(mappedBy = "cityPoint")
     private BusinessPoint businessPoint;
 
-    // @Column(columnDefinition = "geometry(Point,4326)", nullable = false)
-    // private Point position = new GeometryFactory(new PrecisionModel(), SRID).createPoint(new Coordinate(lon, lat));
 }

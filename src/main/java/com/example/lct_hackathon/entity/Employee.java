@@ -2,9 +2,6 @@ package com.example.lct_hackathon.entity;
 
 import java.util.List;
 
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails.Address;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,8 +36,5 @@ public class Employee {
 
     @OneToMany(mappedBy = "employee")
     private List<CompletedTask> completedTasks;
-
-    // @OneToOne(cascade = CascadeType.ALL)
-    // @JoinColumn(name = "id", referencedColumnName = "employeeId")
-    // private CityPoint cityPoint;
+    
 }

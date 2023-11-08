@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.lct_hackathon.dto.AssignedTask;
 import com.example.lct_hackathon.dto.Status;
-
+import com.example.lct_hackathon.entity.Role;
 import com.example.lct_hackathon.entity.User;
 import com.example.lct_hackathon.service.AuthService;
 import com.example.lct_hackathon.service.TaskAssignmentService;
@@ -55,8 +55,21 @@ public class EmployeeController {
         if(user == null){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
+
+        boolean isAuthorized = false;
+
+        for(Role role : user.getRoles()) {
+            if(role.getName() == "AGENT") {
+                isAuthorized = true;
+            }
+        }
+
+        if(!isAuthorized){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
         Long empId = user.getEmployeeId();
-        return new ResponseEntity<>(taskAssignmentService.getTasks(empId).values(), HttpStatus.OK);
+        return new ResponseEntity<>(taskAssignmentService.getEmployeeTasks(empId).values(), HttpStatus.OK);
     }
 
     @PostMapping("/task/{taskAssignmentId}")
@@ -64,6 +77,17 @@ public class EmployeeController {
         User user = authService.getUser(token);
         if(user == null){
             return new ResponseEntity<>("Authorization falied", HttpStatus.UNAUTHORIZED);
+        }
+         boolean isAuthorized = false;
+
+        for(Role role : user.getRoles()) {
+            if(role.getName() == "AGENT") {
+                isAuthorized = true;
+            }
+        }
+
+        if(!isAuthorized){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         Long empId = user.getEmployeeId();
         taskAssignmentService.changeTaskStatus(Status.valueOf(status), note, taskAssignmentId, empId);

@@ -1,8 +1,10 @@
 package com.example.lct_hackathon.service;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -32,5 +34,13 @@ public class UserService {
     }
     public void save(User user){
         userRepository.save(user);
+    }
+    public Set<Long> getManagerIds(){
+        List<User> users = userRepository.findAll();
+        Set<Long> managerIds = new HashSet<>();
+        for(User user : users){
+            managerIds.add(user.getEmployeeId());
+        }
+        return managerIds;
     }
 }

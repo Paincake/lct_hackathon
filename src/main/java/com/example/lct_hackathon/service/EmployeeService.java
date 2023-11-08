@@ -1,5 +1,9 @@
 package com.example.lct_hackathon.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +14,27 @@ import com.example.lct_hackathon.repository.EmployeeRepository;
 public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private UserService userService;
+    
     public Employee findById(Long id){
         return employeeRepository.findById(id).orElse(null);
+    }
+    
+    public List<Employee> findAllEmployees(){
+        List<Employee> employees = employeeRepository.findAll();
+        Set<Long> managerIds = userService.getManagerIds();
+        List<Employee> agents = new ArrayList<>();
+        for(Employee employee : employees){
+            if(!managerIds.contains(employee.getId())){
+                agents.add(employee);
+            }
+        }
+        return agents;
+    }
+
+    public Employee save(Employee employee){
+        return employeeRepository.save(employee);
     }
 }

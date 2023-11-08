@@ -3,6 +3,7 @@ package com.example.lct_hackathon.service;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,8 +31,12 @@ public class TaskAssignmentService {
         
     }
     
-    public Map<UUID, AssignedTask> getTasks(Long empId) {
+    public Map<UUID, AssignedTask> getEmployeeTasks(Long empId) {
         return assignedTaskMap.get(empId);
+    }
+
+    public Collection<Map<UUID, AssignedTask>> getTasks() {
+        return assignedTaskMap.values();
     }
 
     public void changeTaskStatus(Status status, String note, Long taskAssignmentId, Long empId){
