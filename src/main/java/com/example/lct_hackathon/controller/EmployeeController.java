@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.lct_hackathon.dto.AssignedTask;
 import com.example.lct_hackathon.dto.Status;
+import com.example.lct_hackathon.dto.StimulationAssignedTask;
 import com.example.lct_hackathon.entity.Role;
 import com.example.lct_hackathon.entity.User;
 import com.example.lct_hackathon.service.AuthService;
@@ -33,21 +34,21 @@ public class EmployeeController {
 
     @GetMapping("/start_testing")
     public void test(){
-        // AssignedTask task = new AssignedTask();
-        // Timestamp timestamp = Timestamp.from(Instant.now());
-        // task.setAssignmentTimestamp(timestamp);
-        // task.setCompletionTimestamp(null);
-        // task.setStartTimestamp(null);
-        // task.setEmpId(1L);
-        // task.setLatitude(14.1414);
-        // task.setLongitude(14.1414);
-        // task.setNote("");
-        // task.setPriorityName("Высокий приоритет");
-        // task.setStatus(Status.ASSIGNED);
-        // task.setTaskId(1L);
-        // task.setTaskAssignmentId(UUID.randomUUID());
-        // task.setTaskName("ахахахахах");
-        // taskAssignmentService.assignTask(1L, task);
+        AssignedTask task = new StimulationAssignedTask();
+        Timestamp timestamp = Timestamp.from(Instant.now());
+        task.setAssignmentTimestamp(timestamp);
+        task.setCompletionTimestamp(null);
+        task.setStartTimestamp(null);
+        task.setEmpId(1L);
+        task.setLatitude(14.1414);
+        task.setLongitude(14.1414);
+        task.setNote("");
+        task.setPriorityName("Высокий приоритет");
+        task.setStatus(Status.ASSIGNED);
+        task.setTaskId(1L);
+        task.setTaskAssignmentId(UUID.randomUUID());
+        task.setTaskName("ахахахахах");
+        taskAssignmentService.assignTask(1L, task);
     }
 
     @GetMapping("/tasks")
