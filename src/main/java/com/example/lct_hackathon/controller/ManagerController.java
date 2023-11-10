@@ -49,7 +49,7 @@ import jakarta.persistence.Query;
 
 @RestController
 @RequestMapping(produces="application/json")
-@CrossOrigin(origins={"http://localhost:3000", "http://localhost:8080", "http://localhost:8081", "http://94.139.254.37:8081", "http://94.139.254.37:8080"})
+@CrossOrigin
 public class ManagerController {
 
     @Autowired
