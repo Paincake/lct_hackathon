@@ -78,7 +78,13 @@ public class ManagerController {
     private String flaskAppAddress;
 
     @GetMapping("/tasks/assign")
-    public ResponseEntity<String> assignTasks(){
+    public ResponseEntity<String> assignTasks(@RequestParam UUID token){
+
+        User user = authService.authorize(token, "MANAGER");
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
         RestTemplate restTemplate = new RestTemplate();
         try{
             fileAdapter.writeEmployeeInfo(employeeService.findAllEmployees());
@@ -101,10 +107,10 @@ public class ManagerController {
 
     @GetMapping("/tasks/status")
     public ResponseEntity<List<AssignmentManagerInfo>> getAssignedTasks(@RequestParam UUID token){
-        // User user = authService.authorize(token, "MANAGER");
-        // if(user == null){
-        //     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        // }
+        User user = authService.authorize(token, "MANAGER");
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         Map<UUID, AssignedTask> map = taskAssignmentService.getTasks().get(0);
         List<AssignmentManagerInfo> assignmentManagerInfoList = new ArrayList<>();
 
@@ -130,38 +136,38 @@ public class ManagerController {
 
     @GetMapping("/business_points")
     public ResponseEntity<List<BusinessPoint>> getBusinessPoints(@RequestParam UUID token){
-        // User user = authService.authorize(token, "MANAGER");
-        // if(user == null){
-        //     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        // }
+        User user = authService.authorize(token, "MANAGER");
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         return new ResponseEntity<>(businessPointService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/tasks/data")
     public ResponseEntity<List<EmployeeTask>> getEmployeeTasks(@RequestParam UUID token){
-        // User user = authService.authorize(token, "MANAGER");
-        // if(user == null){
-        //     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        // }
+        User user = authService.authorize(token, "MANAGER");
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         return new ResponseEntity<>(employeeTaskService.findAll(), HttpStatus.OK);
     }
 
     
     @GetMapping("/employees")
     public ResponseEntity<List<Employee>> getEmployees(@RequestParam UUID token){
-        // User user = authService.authorize(token, "MANAGER");
-        // if(user == null){
-        //     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        // }
+        User user = authService.authorize(token, "MANAGER");
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         return new ResponseEntity<>(employeeService.findAllEmployees(), HttpStatus.OK);
     }
 
     @GetMapping("/report")
-    public ResponseEntity<List<ManagerReport>> getReport(){
-        // User user = authService.authorize(token, "MANAGER");
-        // if(user == null){
-        //     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        // }
+    public ResponseEntity<List<ManagerReport>> getReport(@RequestParam UUID token){
+        User user = authService.authorize(token, "MANAGER");
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         List<CompletedTaskReportProjection> tasks = completedTaskService.findCompletedTaskReportProjections();
         List<ManagerReport> reportList = new ArrayList<>();
         for(CompletedTaskReportProjection task : tasks){
