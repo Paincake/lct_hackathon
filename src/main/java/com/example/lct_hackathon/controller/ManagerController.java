@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -48,6 +49,7 @@ import jakarta.persistence.Query;
 
 @RestController
 @RequestMapping(produces="application/json")
+@CrossOrigin(origins={"http://localhost:3000", "http://localhost:8080", "http://localhost:8081", "http://94.139.254.37:8081", "http://94.139.254.37:8080"})
 public class ManagerController {
 
     @Autowired
