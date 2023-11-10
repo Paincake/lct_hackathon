@@ -33,20 +33,21 @@ public class EmployeeController {
 
     @GetMapping("/start_testing")
     public void test(){
-        AssignedTask task = new AssignedTask();
-        Timestamp timestamp = Timestamp.from(Instant.now());
-        task.setAssignmentTimestamp(timestamp);
-        task.setCompletionTimestamp(null);
-        task.setStartTimestamp(null);
-        task.setEmpId(1L);
-        task.setLatitude(53.4124);
-        task.setLongitude(13.12312);
-        task.setNote("");
-        task.setPriorityName("Высокий приоритет");
-        task.setStatus(Status.ASSIGNED);
-        task.setTaskId(1L);
-        task.setTaskAssignmentId(UUID.randomUUID());
-        taskAssignmentService.assignTask(1L, task);
+        // AssignedTask task = new AssignedTask();
+        // Timestamp timestamp = Timestamp.from(Instant.now());
+        // task.setAssignmentTimestamp(timestamp);
+        // task.setCompletionTimestamp(null);
+        // task.setStartTimestamp(null);
+        // task.setEmpId(1L);
+        // task.setLatitude(14.1414);
+        // task.setLongitude(14.1414);
+        // task.setNote("");
+        // task.setPriorityName("Высокий приоритет");
+        // task.setStatus(Status.ASSIGNED);
+        // task.setTaskId(1L);
+        // task.setTaskAssignmentId(UUID.randomUUID());
+        // task.setTaskName("ахахахахах");
+        // taskAssignmentService.assignTask(1L, task);
     }
 
     @GetMapping("/tasks")
@@ -73,7 +74,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/task/{taskAssignmentId}")
-    public ResponseEntity<String> changeTaskStatus(@RequestParam UUID token, @RequestParam String status, @RequestParam String note, @PathVariable Long taskAssignmentId){
+    public ResponseEntity<String> changeTaskStatus(@RequestParam UUID token, @RequestParam String status, @RequestParam String note, @PathVariable UUID taskAssignmentId){
         User user = authService.getUser(token);
         if(user == null){
             return new ResponseEntity<>("Authorization falied", HttpStatus.UNAUTHORIZED);

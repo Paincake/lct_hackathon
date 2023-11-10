@@ -2,6 +2,7 @@ package com.example.lct_hackathon.entity;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,15 +23,9 @@ public class Grade {
     private Long id;
 
     @Column(name = "grade_level")
-    private Double gradeLevel;
+    private int gradeLevel;
 
     @Column(name = "grade_name")
     private String gradeName;
-
-    @OneToMany(mappedBy = "grade")
-    private List<Employee> employee;
-
-    @ManyToMany(mappedBy = "requiredGrades")
-    private List<EmployeeTask> tasks;
-
+    
 }

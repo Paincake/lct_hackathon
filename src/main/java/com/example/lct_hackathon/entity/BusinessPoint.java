@@ -21,6 +21,9 @@ public class BusinessPoint {
     @Column(name = "cards_and_materials_delivered")
     private boolean cardsAndMaterialsDelivered;
 
+    @Column(name = "added_yesterday")
+    private boolean addedYesterday;
+
     @Column(name = "days_since_card_release")
     private int daysSinceCardRelease;
 
@@ -30,8 +33,14 @@ public class BusinessPoint {
     @Column(name = "released_cards")
     private int releasedCards;
 
-    @OneToOne
-    @JoinColumn(name = "city_point_id", referencedColumnName = "id")
-    private CityPoint cityPoint;
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "longitude")
+    private double longitude;
+
+    @Column(name = "latitude")
+    private double latitude;
+
     
 }

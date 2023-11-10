@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 public class TaskToAssign {
     private Long taskId;
     private int priorityLevel;
-    private int longitude;
-    private int latitude;
+    private double longitude;
+    private double latitude;
 }
