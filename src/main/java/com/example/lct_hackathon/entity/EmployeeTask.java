@@ -12,7 +12,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -22,29 +25,26 @@ import lombok.Data;
 public class EmployeeTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "priority_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "priority_id")
     private TaskPriority taskPriority;
+
+    @Column(name = "task_name")
+    private String taskName;
 
     @Column(name = "completion_time")
     private double completionTime;
 
-    @Column(name = "conddition_one")
+    @Column(name = "condition_one")
     private String conditionOne;
 
     @Column(name = "condition_two")
     private String conditionTwo;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-        name = "Employee_Project", 
-        joinColumns = { @JoinColumn(name = "employee_id") }, 
-        inverseJoinColumns = { @JoinColumn(name = "project_id") }
-    )
+    @ManyToMany(cascade={CascadeType.PERSIST})
     private List<Grade> requiredGrades;
 
-    @OneToMany(mappedBy = "employeeTask")
-    private List<CompletedTask> completedTasks;
 }

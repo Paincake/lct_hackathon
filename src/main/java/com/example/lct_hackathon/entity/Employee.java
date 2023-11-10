@@ -2,6 +2,7 @@ package com.example.lct_hackathon.entity;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,11 +14,15 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 
 @Entity
 @Table(name="employee")
 @Data
+@EqualsAndHashCode
+@ToString
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,15 +31,16 @@ public class Employee {
     @Column(name = "name")
     private String name;
 
-    @OneToOne
-    @JoinColumn(name = "city_point_id", referencedColumnName = "id")
-    private CityPoint cityPoint;
-
-    @ManyToOne
-    @JoinColumn(name = "grade_id", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.ALL)
     private Grade grade;
 
-    @OneToMany(mappedBy = "employee")
-    private List<CompletedTask> completedTasks;
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "longitude")
+    private double longitude;
+
+    @Column(name = "latitude")
+    private double latitude;
     
 }

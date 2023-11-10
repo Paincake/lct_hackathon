@@ -2,6 +2,9 @@ package com.example.lct_hackathon.entity;
 
 import java.sql.Timestamp;
 
+import com.example.lct_hackathon.dto.CompletedTaskReportProjection;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -16,6 +19,7 @@ import lombok.Data;
 @Table(name = "completed_task")
 @Data
 public class CompletedTask {
+
     @Id
     private Long id;
 
@@ -31,11 +35,11 @@ public class CompletedTask {
     @Column(name = "on_way_timestamp")
     private Timestamp onWayTimestamp;
 
-    @ManyToOne
-    @JoinColumn(name = "task_id", referencedColumnName = "id")
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "task_id")
     private EmployeeTask employeeTask;
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    @ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
+    @JoinColumn(name="employee_id")
     private Employee employee;
 }

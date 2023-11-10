@@ -10,4 +10,4 @@ ADD src /home/app/src
 
 
 RUN mvn clean package
-CMD ["java", "-jar", "/home/app/target/test-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "/home/app/target/lct_hackathon-0.0.1-SNAPSHOT.jar"]

@@ -3,22 +3,25 @@ package com.example.lct_hackathon.dto;
 import java.sql.Timestamp;
 import java.util.UUID;
 
+import com.example.lct_hackathon.service.BusinessPointService;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class AssignedTask {
-    public void performTask(){};
-    private Long empId;
-    private String note;
-    private String taskName;
-    private Long taskId;
-    private UUID taskAssignmentId;
-    private String priorityName;
-    private Status status;
-    private Timestamp assignmentTimestamp;
-    private Timestamp onWayTimestamp;
-    private Timestamp startTimestamp;
-    private Timestamp completionTimestamp;
-    private double longitude;
-    private double latitude;
+public abstract class AssignedTask {
+    public abstract void performTask(BusinessPointService businessPointService);
+    protected Long empId;
+    protected String note;
+    protected String taskName;
+    protected Long taskId;
+    protected UUID taskAssignmentId;
+    protected String priorityName;
+    protected Status status;
+    protected Timestamp assignmentTimestamp;
+    protected Timestamp onWayTimestamp;
+    protected Timestamp startTimestamp;
+    protected Timestamp completionTimestamp;
+    protected double longitude;
+    protected double latitude;
 }

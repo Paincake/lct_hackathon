@@ -21,6 +21,9 @@ public class TaskAssignmentService {
     @Autowired
     private CompletedTaskService completedTaskService;
 
+    @Autowired
+    private BusinessPointService businessPointService;
+
     private static Map<Long, Map<UUID, AssignedTask>> assignedTaskMap = new HashMap<>();
     
     public void assignTask(Long empId, AssignedTask assignedTask){
@@ -35,11 +38,11 @@ public class TaskAssignmentService {
         return assignedTaskMap.get(empId);
     }
 
-    public Collection<Map<UUID, AssignedTask>> getTasks() {
-        return assignedTaskMap.values();
+    public List<Map<UUID, AssignedTask>> getTasks() {
+        return new ArrayList<>(assignedTaskMap.values());
     }
 
-    public void changeTaskStatus(Status status, String note, Long taskAssignmentId, Long empId){
+    public void changeTaskStatus(Status status, String note, UUID taskAssignmentId, Long empId){
         AssignedTask task = assignedTaskMap.get(empId).get(taskAssignmentId);
         Timestamp timestamp = Timestamp.from(Instant.now());
         task.setStatus(status);
@@ -47,7 +50,7 @@ public class TaskAssignmentService {
             case DONE -> {
                 task.setCompletionTimestamp(timestamp);
                 task.setNote(note);
-                task.performTask();
+                task.performTask(businessPointService);
                 completedTaskService.save(task);
             }
             case ON_WAY -> {

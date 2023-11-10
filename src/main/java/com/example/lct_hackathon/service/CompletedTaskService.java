@@ -1,9 +1,12 @@
 package com.example.lct_hackathon.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.lct_hackathon.dto.AssignedTask;
+import com.example.lct_hackathon.dto.CompletedTaskReportProjection;
 import com.example.lct_hackathon.entity.CompletedTask;
 import com.example.lct_hackathon.repository.CompletedTaskRepository;
 
@@ -28,5 +31,12 @@ public class CompletedTaskService {
         completedTask.setEmployeeTask(employeeTaskService.findById(assignedTask.getTaskId()));
         completedTask.setCompletionNote(assignedTask.getNote());
         completedTaskRepository.save(completedTask);
+    }
+
+    public List<CompletedTask> findAll(){
+        return completedTaskRepository.findAll();
+    }
+    public List<CompletedTaskReportProjection> findCompletedTaskReportProjections(){
+        return completedTaskRepository.getProjections();
     }
 }
