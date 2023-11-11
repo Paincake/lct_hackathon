@@ -5,6 +5,8 @@ services:
  core:
    container_name: spring-application
    image: registry.gitlab.com/ryazhev2012/hackathon-backend:latest
+   volumes:
+     - /root/volumes:/home/app
    environment:
      TEST_SERVICE_PORT: ${TEST_SERVICE_PORT}
      OPEN_API_TITLE: ${OPEN_API_TITLE}

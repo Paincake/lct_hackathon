@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.lct_hackathon.api.MapApiRequestSender;
 import com.example.lct_hackathon.dto.AssignedTask;
 import com.example.lct_hackathon.dto.AssignedTaskFactory;
 import com.example.lct_hackathon.dto.AssignmentManagerInfo;
@@ -41,6 +43,7 @@ import com.example.lct_hackathon.service.BusinessPointService;
 import com.example.lct_hackathon.service.CompletedTaskService;
 import com.example.lct_hackathon.service.EmployeeService;
 import com.example.lct_hackathon.service.EmployeeTaskService;
+import com.example.lct_hackathon.service.GradeService;
 import com.example.lct_hackathon.service.TaskAssignmentService;
 import com.example.lct_hackathon.service.TaskToAssignService;
 
@@ -75,6 +78,9 @@ public class ManagerController {
 
     @Autowired
     private TaskToAssignService taskToAssignService;
+
+    @Autowired
+    private GradeService gradeService;
 
     @Value("${flask.app.address}")
     private String flaskAppAddress;
@@ -173,7 +179,30 @@ public class ManagerController {
     
     }
 
-    // @PutMapping("/employee/{empId}")
+    @PostMapping("/business_point/add")
+    public ResponseEntity<BusinessPoint> addBusinessPoint(@RequestBody BusinessPoint businessPoint){
+        MapApiRequestSender sender = new MapApiRequestSender();
+        List<Double> lonLat = sender.getLonLatByAddress("г. Краснодар, " + businessPoint.getAddress());
+        Double lon = lonLat.get(0);
+        Double lat = lonLat.get(1);
+        businessPoint.setLongitude(lon);
+        businessPoint.setLatitude(lat);
+        return new ResponseEntity<>(businessPointService.save(businessPoint), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/employee/add")
+    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee){
+        MapApiRequestSender sender = new MapApiRequestSender();
+        List<Double> lonLat = sender.getLonLatByAddress("г. Краснодар, " + employee.getAddress());
+        Double lon = lonLat.get(0);
+        Double lat = lonLat.get(1);
+        employee.setLatitude(lat);
+        employee.setLongitude(lon);
+        employee.setGrade(gradeService.findByGradeName(employee.getGrade().getGradeName()));
+        return new ResponseEntity<>(employeeService.save(employee), HttpStatus.CREATED);
+    }
+
+    // @PostMapping("/employee/{empId}")
     // public ResponseEntity<Employee> changeEmployee(@RequestParam UUID token, @PathVariable("empId") Long empId, @RequestBody Employee employee){
     //     User user = authService.authorize(token, "MANAGER");
     //     if(user == null){
