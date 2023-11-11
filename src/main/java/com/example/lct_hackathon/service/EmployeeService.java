@@ -24,10 +24,9 @@ public class EmployeeService {
     
     public List<Employee> findAllEmployees(){
         List<Employee> employees = employeeRepository.findAll();
-        Set<Long> managerIds = userService.getManagerIds();
         List<Employee> agents = new ArrayList<>();
         for(Employee employee : employees){
-            if(!managerIds.contains(employee.getId())){
+            if(employee.getId() != 100){
                 agents.add(employee);
             }
         }

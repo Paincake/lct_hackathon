@@ -28,6 +28,10 @@ public class BusinessPointService {
         businessPointRepository.performDeliveryTask(longitude, latitude);
     }
 
+    public BusinessPoint save(BusinessPoint businessPoint) {
+        return businessPointRepository.saveAndFlush(businessPoint);
+    }
+
     
     
 }

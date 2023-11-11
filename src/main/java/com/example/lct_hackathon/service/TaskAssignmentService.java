@@ -35,7 +35,7 @@ public class TaskAssignmentService {
     }
     
     public Map<UUID, AssignedTask> getEmployeeTasks(Long empId) {
-        return assignedTaskMap.get(empId);
+        return assignedTaskMap.getOrDefault(empId, new HashMap<>());
     }
 
     public List<Map<UUID, AssignedTask>> getTasks() {

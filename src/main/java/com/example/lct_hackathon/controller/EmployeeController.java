@@ -32,41 +32,11 @@ public class EmployeeController {
     @Autowired
     private TaskAssignmentService taskAssignmentService;
 
-    @GetMapping("/start_testing")
-    public void test(){
-        AssignedTask task = new StimulationAssignedTask();
-        Timestamp timestamp = Timestamp.from(Instant.now());
-        task.setAssignmentTimestamp(timestamp);
-        task.setCompletionTimestamp(null);
-        task.setStartTimestamp(null);
-        task.setEmpId(1L);
-        task.setLatitude(14.1414);
-        task.setLongitude(14.1414);
-        task.setNote("");
-        task.setPriorityName("Высокий приоритет");
-        task.setStatus(Status.ASSIGNED);
-        task.setTaskId(1L);
-        task.setTaskAssignmentId(UUID.randomUUID());
-        task.setTaskName("ахахахахах");
-        taskAssignmentService.assignTask(1L, task);
-    }
-
+    
     @GetMapping("/tasks")
     public ResponseEntity<Collection<AssignedTask>> getTasks(@RequestParam UUID token){
-        User user = authService.getUser(token);
+        User user = authService.authorize(token, "AGENT");
         if(user == null){
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-
-        boolean isAuthorized = false;
-
-        for(Role role : user.getRoles()) {
-            if(role.getName() == "AGENT") {
-                isAuthorized = true;
-            }
-        }
-
-        if(!isAuthorized){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
@@ -76,19 +46,8 @@ public class EmployeeController {
 
     @PostMapping("/task/{taskAssignmentId}")
     public ResponseEntity<String> changeTaskStatus(@RequestParam UUID token, @RequestParam String status, @RequestParam String note, @PathVariable UUID taskAssignmentId){
-        User user = authService.getUser(token);
+        User user = authService.authorize(token, "AGENT");
         if(user == null){
-            return new ResponseEntity<>("Authorization falied", HttpStatus.UNAUTHORIZED);
-        }
-         boolean isAuthorized = false;
-
-        for(Role role : user.getRoles()) {
-            if(role.getName() == "AGENT") {
-                isAuthorized = true;
-            }
-        }
-
-        if(!isAuthorized){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         Long empId = user.getEmployeeId();
