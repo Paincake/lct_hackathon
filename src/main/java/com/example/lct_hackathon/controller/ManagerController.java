@@ -109,10 +109,10 @@ public class ManagerController {
 
     @GetMapping("/tasks/status")
     public ResponseEntity<List<AssignmentManagerInfo>> getAssignedTasks(@RequestParam UUID token){
-        // User user = authService.authorize(token, "MANAGER");
-        // if(user == null){
-        //     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        // }
+        User user = authService.authorize(token, "MANAGER");
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         Map<UUID, AssignedTask> map = taskAssignmentService.getTasks().get(0);
         List<AssignmentManagerInfo> assignmentManagerInfoList = new ArrayList<>();
 
@@ -138,38 +138,38 @@ public class ManagerController {
 
     @GetMapping("/business_points")
     public ResponseEntity<List<BusinessPoint>> getBusinessPoints(@RequestParam UUID token){
-        // User user = authService.authorize(token, "MANAGER");
-        // if(user == null){
-        //     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        // }
+        User user = authService.authorize(token, "MANAGER");
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         return new ResponseEntity<>(businessPointService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/tasks/data")
     public ResponseEntity<List<EmployeeTask>> getEmployeeTasks(@RequestParam UUID token){
-        // User user = authService.authorize(token, "MANAGER");
-        // if(user == null){
-        //     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        // }
+        User user = authService.authorize(token, "MANAGER");
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         return new ResponseEntity<>(employeeTaskService.findAll(), HttpStatus.OK);
     }
 
     
     @GetMapping("/employees")
     public ResponseEntity<List<Employee>> getEmployees(@RequestParam UUID token){
-        // User user = authService.authorize(token, "MANAGER");
-        // if(user == null){
-        //     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        // }
+        User user = authService.authorize(token, "MANAGER");
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         return new ResponseEntity<>(employeeService.findAllEmployees(), HttpStatus.OK);
     }
 
     @GetMapping("/report")
-    public ResponseEntity<List<ManagerReport>> getReport(){
-        // User user = authService.authorize(token, "MANAGER");
-        // if(user == null){
-        //     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        // }
+    public ResponseEntity<List<ManagerReport>> getReport(@RequestParam UUID token){
+        User user = authService.authorize(token, "MANAGER");
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         List<CompletedTaskReportProjection> tasks = completedTaskService.findCompletedTaskReportProjections();
         List<ManagerReport> reportList = new ArrayList<>();
         for(CompletedTaskReportProjection task : tasks){
@@ -180,7 +180,11 @@ public class ManagerController {
     }
 
     @PostMapping("/business_point/add")
-    public ResponseEntity<BusinessPoint> addBusinessPoint(@RequestBody BusinessPoint businessPoint){
+    public ResponseEntity<BusinessPoint> addBusinessPoint(@RequestBody BusinessPoint businessPoint, @RequestParam UUID token){
+        User user = authService.authorize(token, "MANAGER");
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         MapApiRequestSender sender = new MapApiRequestSender();
         List<Double> lonLat = sender.getLonLatByAddress("г. Краснодар, " + businessPoint.getAddress());
         Double lon = lonLat.get(0);
@@ -191,7 +195,11 @@ public class ManagerController {
     }
 
     @PostMapping("/employee/add")
-    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee){
+    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee, @RequestParam UUID token){
+        User user = authService.authorize(token, "MANAGER");
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         MapApiRequestSender sender = new MapApiRequestSender();
         List<Double> lonLat = sender.getLonLatByAddress("г. Краснодар, " + employee.getAddress());
         Double lon = lonLat.get(0);
@@ -201,16 +209,5 @@ public class ManagerController {
         employee.setGrade(gradeService.findByGradeName(employee.getGrade().getGradeName()));
         return new ResponseEntity<>(employeeService.save(employee), HttpStatus.CREATED);
     }
-
-    // @PostMapping("/employee/{empId}")
-    // public ResponseEntity<Employee> changeEmployee(@RequestParam UUID token, @PathVariable("empId") Long empId, @RequestBody Employee employee){
-    //     User user = authService.authorize(token, "MANAGER");
-    //     if(user == null){
-    //         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    //     }
-    //     employee.setId(empId);
-    //     Employee emp = employeeService.save(employee);
-    //     return new ResponseEntity<>(emp, HttpStatus.ACCEPTED);
-    // }
 
 }
